@@ -11,7 +11,7 @@ export default (state = {}, action = {}) => {
       return {
         ...state,
         isFetching: false,
-        ...action.payload,
+        ideas: action.payload,
       };
     case IDEAS_DATA_NOT_RECEIVED:
       return {

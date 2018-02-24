@@ -2,11 +2,14 @@ import { connect } from 'react-redux';
 import board from '../components/board';
 import getResults from '../content/get-ideas';
 
-const mapStateToProps = () => {};
+const mapStateToProps = (state) => {
+  console.log(state);
+  return state;
+};
 
 const mapDispatchToProps = dispatch => ({
-  getIdeasData: (term) => {
-    getResults(dispatch, term); // performs client side fetch
+  getIdeasData: () => {
+    getResults(dispatch); // performs client side fetch
   },
 });
 
