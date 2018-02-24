@@ -7,7 +7,6 @@ export const ideasDataRequested = () => ({
 export const ideasDataRecieved = payload => ({
   type: IDEAS_DATA_RECEIVED,
   payload,
-
 });
 
 export const ideasDataNotRecieved = payload => ({

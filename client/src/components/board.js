@@ -1,12 +1,6 @@
-import React, { Component, ReactDOM } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Card from './card';
-
-const getRandomInt = (min, max) => {
-  const minimum = Math.ceil(min);
-  const maximum = Math.floor(max);
-  return Math.floor(Math.random() * (maximum - minimum)) + minimum;
-};
 
 class Board extends Component {
   constructor(props) {
@@ -20,19 +14,15 @@ class Board extends Component {
     getIdeasData();
   }
 
-  handleAdd() {
-    const id = getRandomInt(1, 10000).toString(); // TODO let server generate, random int from 1 to 10000
-    const createdDate = Date.now().toString(); // TODO let server generate, time in ms
-    const newIdea = { id, createdDate, title: '', body: '' };
-    // console.log(newIdea);
-    const { addNewIdea } = this.props;
-    addNewIdea(newIdea);
-  }
-
   componentDidUpdate() {
     if (this.props.board.ideas.length > 0) {
       this.card.focus();
     }
+  }
+
+  handleAdd() {
+    const { getNewIdea } = this.props;
+    getNewIdea();
   }
 
   render() {
@@ -59,7 +49,7 @@ class Board extends Component {
 Board.propTypes = {
   board: PropTypes.object.isRequired,
   getIdeasData: PropTypes.func.isRequired,
-  addNewIdea: PropTypes.func.isRequired,
+  getNewIdea: PropTypes.func.isRequired,
 };
 
 export default Board;
