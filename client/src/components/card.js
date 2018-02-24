@@ -9,8 +9,13 @@ class Card extends Component {
     const { id, createdDate } = props;
     this.state = { id, createdDate, inlineTitle: 'Click to edit title', inlineBody: 'Click to edit body' };
 
+    this.focus = this.focus.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
+  }
+
+  focus() {
+    this.titleInput.startEditing();
   }
 
   handleTitleChange(newState) {
@@ -35,6 +40,8 @@ class Card extends Component {
               value={this.state.inlineTitle}
               change={this.handleTitleChange}
               propName="inlineTitle"
+              editing={this.state.editing}
+              ref={(input) => { this.titleInput = input; }}
             />
           </h3>
         </span>

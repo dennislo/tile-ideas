@@ -21,12 +21,13 @@ class Board extends Component {
 
 
   handleAdd() {
-    const id = getRandomInt(1, 10000).toString(); // should let server generate, random int from 1 to 10000
-    const createdDate = Date.now().toString(); // should let server generate, time in ms
+    const id = getRandomInt(1, 10000).toString(); // TODO let server generate, random int from 1 to 10000
+    const createdDate = Date.now().toString(); // TODO let server generate, time in ms
     const newIdea = { id, createdDate, title: '', body: '' };
     // console.log(newIdea);
     const { addNewIdea } = this.props;
     addNewIdea(newIdea);
+    this.card.focus();
   }
 
   render() {
@@ -41,7 +42,7 @@ class Board extends Component {
       </button>
       <div className="cards">
         {
-          ideas.map(idea => <Card key={idea.id} {...idea} />)
+          ideas.map(idea => <Card key={idea.id} {...idea} ref={(instance) => { this.card = instance; }} />)
         }
       </div>
     </div>);
