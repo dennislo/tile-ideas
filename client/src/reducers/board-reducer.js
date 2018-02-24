@@ -1,4 +1,4 @@
-import { IDEAS_DATA_REQUESTED, IDEAS_DATA_RECEIVED, IDEAS_DATA_NOT_RECEIVED, IDEA_ADD, IDEA_UPDATE } from '../actions/types';
+import { IDEAS_DATA_REQUESTED, IDEAS_DATA_RECEIVED, IDEAS_DATA_NOT_RECEIVED, IDEA_ADD, IDEA_UPDATE, IDEA_DELETE } from '../actions/types';
 
 export default (state = {}, action = {}) => {
   switch (action.type) {
@@ -27,6 +27,7 @@ export default (state = {}, action = {}) => {
         ideas: newIdeas,
       };
     case IDEA_UPDATE:
+    case IDEA_DELETE:
       return {
         ...state,
         isFetching: false,

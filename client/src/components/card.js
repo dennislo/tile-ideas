@@ -12,6 +12,7 @@ class Card extends Component {
     this.focus = this.focus.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   focus() {
@@ -24,8 +25,7 @@ class Card extends Component {
     const idea = this.state;
     idea.inlineTitle = newState.inlineTitle;
 
-    const { updateIdea } = this.props;
-    updateIdea(idea);
+    this.props.updateIdea(idea);
   }
 
   handleBodyChange(newState) {
@@ -34,8 +34,13 @@ class Card extends Component {
     const idea = this.state;
     idea.inlineBody = newState.inlineBody;
 
-    const { updateIdea } = this.props;
-    updateIdea(idea);
+    this.props.updateIdea(idea);
+  }
+
+  handleDelete() {
+    const idea = this.state;
+
+    this.props.deleteIdea(idea);
   }
 
   render() {
@@ -64,7 +69,7 @@ class Card extends Component {
         {nearLimit && <span className="card-character-count">&lt; 15 characters remaining</span>}
       </span>
       <span className="card-meta" data-created-date={createdDate}>
-        <span className="card-control">
+        <span className="card-control" onClick={this.handleDelete}>
           <img src={trashCan} className="trash-icon" alt="trash can" /><span className="trash-text"> Delete</span>
         </span>
       </span>
@@ -75,9 +80,8 @@ class Card extends Component {
 Card.propTypes = {
   id: PropTypes.string.isRequired,
   createdDate: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
   updateIdea: PropTypes.func.isRequired,
+  deleteIdea: PropTypes.func.isRequired,
 };
 
 export default Card;

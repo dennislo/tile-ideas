@@ -13,9 +13,7 @@ const getIdea = (dispatch) => {
   const createdDate = Date.now().toString(); // time in ms
   const newIdea = { id, createdDate, title: '', body: '' };
 
-  setTimeout(() => {
-    dispatch(ideaAdd(newIdea));
-  }, 100); // increase to simulate slow XHR
+  dispatch(ideaAdd(newIdea));
 };
 
 export default getIdea;

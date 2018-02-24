@@ -164,11 +164,15 @@
 
 .card-control {
   height: 50px;
+  width: 60px;
   position: relative;
   top: 15px;
   color: #c20000;
   padding-left: 15px;
-  vertical-align: middle;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .trash-icon {

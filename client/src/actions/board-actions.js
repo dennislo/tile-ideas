@@ -1,4 +1,4 @@
-import { IDEAS_DATA_REQUESTED, IDEAS_DATA_RECEIVED, IDEAS_DATA_NOT_RECEIVED, IDEA_ADD, IDEA_UPDATE } from './types';
+import { IDEAS_DATA_REQUESTED, IDEAS_DATA_RECEIVED, IDEAS_DATA_NOT_RECEIVED, IDEA_ADD, IDEA_UPDATE, IDEA_DELETE } from './types';
 
 export const ideasDataRequested = () => ({
   type: IDEAS_DATA_REQUESTED,
@@ -21,5 +21,10 @@ export const ideaAdd = payload => ({
 
 export const ideaUpdated = payload => ({
   type: IDEA_UPDATE,
+  payload,
+});
+
+export const ideaDeleted = payload => ({
+  type: IDEA_DELETE,
   payload,
 });
