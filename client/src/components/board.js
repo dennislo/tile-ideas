@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactDOM } from 'react';
 import PropTypes from 'prop-types';
 import Card from './card';
 
@@ -11,6 +11,7 @@ const getRandomInt = (min, max) => {
 class Board extends Component {
   constructor(props) {
     super(props);
+
     this.handleAdd = this.handleAdd.bind(this);
   }
 
@@ -19,7 +20,6 @@ class Board extends Component {
     getIdeasData();
   }
 
-
   handleAdd() {
     const id = getRandomInt(1, 10000).toString(); // TODO let server generate, random int from 1 to 10000
     const createdDate = Date.now().toString(); // TODO let server generate, time in ms
@@ -27,7 +27,12 @@ class Board extends Component {
     // console.log(newIdea);
     const { addNewIdea } = this.props;
     addNewIdea(newIdea);
-    this.card.focus();
+  }
+
+  componentDidUpdate() {
+    if (this.props.board.ideas.length > 0) {
+      this.card.focus();
+    }
   }
 
   render() {
@@ -42,7 +47,9 @@ class Board extends Component {
       </button>
       <div className="cards">
         {
-          ideas.map(idea => <Card key={idea.id} {...idea} ref={(instance) => { this.card = instance; }} />)
+          ideas.map(idea => <Card key={idea.id} {...idea} ref={(instance) => {
+            this.card = instance;
+          }} />)
         }
       </div>
     </div>);

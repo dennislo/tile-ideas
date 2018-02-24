@@ -7,7 +7,7 @@ class Card extends Component {
   constructor(props) {
     super(props);
     const { id, createdDate } = props;
-    this.state = { id, createdDate, inlineTitle: 'Click to edit title', inlineBody: 'Click to edit body' };
+    this.state = { id, createdDate, inlineTitle: 'Click to edit title', inlineBody: 'Click to edit body', editing: false };
 
     this.focus = this.focus.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -15,7 +15,7 @@ class Card extends Component {
   }
 
   focus() {
-    this.titleInput.startEditing();
+    this.setState({ editing: true });
   }
 
   handleTitleChange(newState) {
@@ -25,7 +25,6 @@ class Card extends Component {
 
   handleBodyChange(newState) {
     this.setState(newState);
-    // TODO dispatch update body
   }
 
   render() {
@@ -41,7 +40,6 @@ class Card extends Component {
               change={this.handleTitleChange}
               propName="inlineTitle"
               editing={this.state.editing}
-              ref={(input) => { this.titleInput = input; }}
             />
           </h3>
         </span>
