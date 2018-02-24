@@ -23,10 +23,10 @@ const Card = ({ id, createdDate, title, body }) => {
 };
 
 Card.propTypes = {
-  id: PropTypes.string,
-  createdDate: PropTypes.string,
-  title: PropTypes.string,
-  body: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  createdDate: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
 };
 
 export default Card;

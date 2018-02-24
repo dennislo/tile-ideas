@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import board from '../components/board';
-import getResults from '../content/get-ideas';
+import getIdeas from '../content/get-ideas';
+import addIdea from '../content/add-idea';
 
 const mapStateToProps = (state) => {
   console.log(state);
@@ -9,7 +10,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   getIdeasData: () => {
-    getResults(dispatch); // performs client side fetch
+    getIdeas(dispatch); // performs client side fetch
+  },
+  addNewIdea: (newIdea) => {
+    addIdea(dispatch, newIdea);
   },
 });
 
