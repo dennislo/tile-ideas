@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { sortBy } from 'lodash';
 import CardContainer from '../containers/card-container';
 
 class Board extends Component {
   constructor(props) {
     super(props);
+    this.state = { ideas: [], sortBy: 'title' };
 
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleSortChange = this.handleSortChange.bind(this);
   }
 
   componentDidMount() {
-    const { getIdeasData } = this.props;
-    getIdeasData();
+    this.props.getIdeasData(); // perform xhr fetch
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.board !== nextProps.board) {
+      this.setState({ ideas: nextProps.board.ideas });
+    }
   }
 
   componentDidUpdate() {
@@ -27,16 +35,32 @@ class Board extends Component {
     getNewIdea();
   }
 
+  handleSortChange(e) {
+    const selectedSortBy = e.target.value;
+    this.setState({ sortBy: selectedSortBy });
+    const ideas = this.props.board.ideas;
+    const sorted = sortBy(ideas, o => o[selectedSortBy]);
+    console.log(sorted);
+    this.setState({ ideas: sorted });
+  }
+
   render() {
-    const { board } = this.props;
     let ideas = [];
-    if (board && board.ideas) {
-      ideas = board.ideas;
+    if (this.state.ideas) {
+      ideas = this.state.ideas;
     }
     return (<div className="container">
       <button onClick={this.handleAdd}>
         Add
       </button>
+      <br />
+      <label htmlFor="sort-by">
+        Sort by:
+        <select id="sort-by" value={this.state.sortBy} onChange={this.handleSortChange}>
+          <option value="title">Title</option>
+          <option value="createDate">Create date</option>
+        </select>
+      </label>
       <div className="cards">
         {
           ideas.map(idea => <CardContainer key={idea.id} {...idea} ref={(instance) => {
