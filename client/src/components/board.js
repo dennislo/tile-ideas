@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Card from './card';
+import CardContainer from '../containers/card-container';
 
 class Board extends Component {
   constructor(props) {
@@ -37,8 +37,8 @@ class Board extends Component {
       </button>
       <div className="cards">
         {
-          ideas.map(idea => <Card key={idea.id} {...idea} ref={(instance) => {
-            this.card = instance;
+          ideas.map(idea => <CardContainer key={idea.id} {...idea} ref={(instance) => {
+            this.card = instance.getWrappedInstance(); // use getWrappedInstance() since its redux connected
           }} />)
         }
       </div>

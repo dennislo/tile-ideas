@@ -20,7 +20,9 @@ class Card extends Component {
 
   handleTitleChange(newState) {
     this.setState(newState);
-    // TODO dispatch update title
+    const idea = this.state;
+    const { updateIdea } = this.props;
+    updateIdea(idea);
   }
 
   handleBodyChange(newState) {
@@ -66,6 +68,7 @@ Card.propTypes = {
   createdDate: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
+  updateIdea: PropTypes.func.isRequired,
 };
 
 export default Card;

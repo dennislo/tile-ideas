@@ -1,5 +1,5 @@
 // import fetch from 'isomorphic-fetch';
-import { ideasDataRequested, ideasDataRecieved, ideasDataNotRecieved } from '../actions/board-actions';
+import { ideasDataRecieved } from '../actions/board-actions';
 
 // const ideas = [
 //   {
@@ -30,6 +30,7 @@ import { ideasDataRequested, ideasDataRecieved, ideasDataNotRecieved } from '../
 const ideas = [];
 
 const getIdeas = (dispatch) => {
+  // Mock GET ideas/ -> [{"id": ":id", "created_date": ":created_date", "title": ":title", "body": ":body"}, {}, ...]
   dispatch(ideasDataRecieved(ideas));
   /*
   const url = 'https://api.com/ideas';

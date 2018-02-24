@@ -11,7 +11,7 @@ const getIdea = (dispatch) => {
   const id = getRandomInt(1, 10000).toString(); // random int from 1 to 10000
   const createdDate = Date.now().toString(); // time in ms
   const newIdea = { id, createdDate, title: '', body: '' };
-  // console.log(newIdea);
+
   setTimeout(() => {
     dispatch(ideaAdd(newIdea));
   }, 100); // increase to simulate slow XHR
