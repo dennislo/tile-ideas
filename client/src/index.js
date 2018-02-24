@@ -1,19 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
 import reducers from './reducers/index';
 import App from './app';
 
+const middlewares = [thunk];
+
 // Here we are getting the initial state injected by the server.
 const initialState = window.__INITIAL_STATE__; // eslint-disable-line
 
 // Integrates with redux devtools
-const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(); // eslint-disable-line
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducers, initialState, reduxDevTools);
+const store = createStore(reducers, initialState, composeEnhancers(
+  applyMiddleware(...middlewares),
+));
 
 // While creating a store, we will inject the initial state we received from the server to our app.
 const render = (Component) => {

@@ -16,7 +16,9 @@ class Board extends Component {
 
   componentDidUpdate() {
     if (this.props.board.ideas.length > 0) {
-      this.card.focus();
+      if (this.card) {
+        this.card.focus();
+      }
     }
   }
 
@@ -38,7 +40,9 @@ class Board extends Component {
       <div className="cards">
         {
           ideas.map(idea => <CardContainer key={idea.id} {...idea} ref={(instance) => {
-            this.card = instance.getWrappedInstance(); // use getWrappedInstance() since its redux connected
+            if (!!instance) { // not availble after inline update
+              this.card = instance.getWrappedInstance(); // use getWrappedInstance() since its redux connected
+            }
           }} />)
         }
       </div>

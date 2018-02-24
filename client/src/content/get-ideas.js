@@ -30,8 +30,9 @@ import { ideasDataRecieved } from '../actions/board-actions';
 const ideas = [];
 
 const getIdeas = (dispatch) => {
-  // Mock GET ideas/ -> [{"id": ":id", "created_date": ":created_date", "title": ":title", "body": ":body"}, {}, ...]
   dispatch(ideasDataRecieved(ideas));
+
+  // GET ideas/ -> [{"id": ":id", "created_date": ":created_date", "title": ":title", "body": ":body"}, {}, ...]
   /*
   const url = 'https://api.com/ideas';
   dispatch(ideasDataRequested())

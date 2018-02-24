@@ -20,13 +20,22 @@ class Card extends Component {
 
   handleTitleChange(newState) {
     this.setState(newState);
+
     const idea = this.state;
+    idea.inlineTitle = newState.inlineTitle;
+
     const { updateIdea } = this.props;
     updateIdea(idea);
   }
 
   handleBodyChange(newState) {
     this.setState(newState);
+
+    const idea = this.state;
+    idea.inlineBody = newState.inlineBody;
+
+    const { updateIdea } = this.props;
+    updateIdea(idea);
   }
 
   render() {

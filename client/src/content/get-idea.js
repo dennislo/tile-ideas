@@ -7,7 +7,8 @@ const getRandomInt = (min, max) => {
 };
 
 const getIdea = (dispatch) => {
-  // Mocks GET ideas/new -> { "id": ":id", "created_date": ":created_date" }
+  // insert code for GET ideas/new -> { "id": ":id", "created_date": ":created_date" }
+
   const id = getRandomInt(1, 10000).toString(); // random int from 1 to 10000
   const createdDate = Date.now().toString(); // time in ms
   const newIdea = { id, createdDate, title: '', body: '' };
