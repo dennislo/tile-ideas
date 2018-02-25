@@ -4,3 +4,5 @@ webpack
 .eslintrc.json
 package-lock.json
 server/routes
+requirements
+test
