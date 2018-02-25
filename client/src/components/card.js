@@ -30,7 +30,7 @@ class Card extends Component {
       createdDate,
       inlineTitle: 'Click to edit title',
       inlineBody: 'Click to edit body',
-      editing: false,
+      editingTitle: false,
     };
 
     this.focus = this.focus.bind(this);
@@ -40,11 +40,11 @@ class Card extends Component {
   }
 
   focus() {
-    this.setState({ editing: true });
+    this.setState({ editingTitle: true });
   }
 
   handleTitleChange(newState) {
-    this.setState(newState);
+    this.setState({ ...newState, editingTitle: false });
 
     const idea = this.state;
     idea.inlineTitle = newState.inlineTitle;
@@ -55,7 +55,7 @@ class Card extends Component {
   }
 
   handleBodyChange(newState) {
-    this.setState(newState);
+    this.setState({ ...newState, editingTitle: false });
 
     const idea = this.state;
     idea.inlineBody = newState.inlineBody;
@@ -83,7 +83,7 @@ class Card extends Component {
               value={this.state.inlineTitle}
               change={this.handleTitleChange}
               propName="inlineTitle"
-              editing={this.state.editing}
+              editing={this.state.editingTitle}
             />
           </h3>
         </span>
@@ -95,7 +95,8 @@ class Card extends Component {
           propName="inlineBody"
         />
         {
-          nearLimit && <span className="card-character-count">{charsCount} character(s) typed, {charsRemaining} remaining</span>
+          nearLimit &&
+          <span className="card-character-count">{charsCount} character(s) typed, {charsRemaining} remaining</span>
         }
       </span>
       <span className="card-meta" data-created-date={createdDate}>
