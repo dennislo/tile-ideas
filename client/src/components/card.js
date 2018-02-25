@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { RIEInput, RIETextArea } from 'riek';
-import trashCan from '../../res/images/trash-icon.svg';
+
+const trashCan = (process.env.NODE_ENV !== 'test') ? require('../../res/images/trash-icon.svg') : {};
 
 const isNearLimit = (bodyText) => {
   const maxChars = 140;

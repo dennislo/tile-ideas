@@ -4,6 +4,8 @@ import { sortBy } from 'lodash';
 import NotificationSystem from 'react-notification-system';
 import CardContainer from '../containers/card-container';
 
+export const sortIdeas = (ideas, field) => sortBy(ideas, o => o[field]);
+
 class Board extends Component {
   constructor(props) {
     super(props);
@@ -33,18 +35,16 @@ class Board extends Component {
   }
 
   handleAdd() {
-    const { getNewIdea } = this.props;
-    getNewIdea();
+    this.props.getNewIdea();
   }
 
   handleSortChange(e) {
     const selectedSortBy = e.target.value;
     this.setState({ sortBy: selectedSortBy });
 
-    const ideas = this.props.board.ideas;
-    const sorted = sortBy(ideas, o => o[selectedSortBy]);
+    const sortedIdeas = sortIdeas(this.props.board.ideas, selectedSortBy);
 
-    this.setState({ ideas: sorted });
+    this.setState({ ideas: sortedIdeas });
   }
 
   showNotification(type) { // source https://github.com/igorprado/react-notification-system
@@ -62,7 +62,7 @@ class Board extends Component {
       ideas = this.state.ideas;
     }
     return (<div className="container">
-      <button onClick={this.handleAdd}>
+      <button className="js-add-button" onClick={this.handleAdd}>
         Add
       </button>
       <br />
@@ -70,14 +70,16 @@ class Board extends Component {
         Sort by:
         <select id="sort-by" value={this.state.sortBy} onChange={this.handleSortChange}>
           <option value="title">Title</option>
-          <option value="createDate">Create date</option>
+          <option value="createdDate">Create date</option>
         </select>
       </label>
-      <NotificationSystem ref={(ns) => { this.notificationSystem = ns; }} />
+      <NotificationSystem ref={(ns) => {
+        this.notificationSystem = ns;
+      }} />
       <div className="cards">
         {
           ideas.map(idea => <CardContainer key={idea.id} {...idea} onEdit={this.showNotification} ref={(instance) => {
-            if (!!instance) { // not availble after inline update
+            if (!!instance) { // guard after inline update
               this.card = instance.getWrappedInstance(); // use getWrappedInstance() since its redux connected
             }
           }} />)
@@ -88,7 +90,7 @@ class Board extends Component {
 }
 
 Board.propTypes = {
-  board: PropTypes.object.isRequired,
+  board: PropTypes.object,
   getIdeasData: PropTypes.func.isRequired,
   getNewIdea: PropTypes.func.isRequired,
 };
