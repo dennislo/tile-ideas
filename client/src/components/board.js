@@ -66,12 +66,14 @@ class Board extends Component {
       ideas = this.state.ideas;
     }
     return (<div className="container">
+      <span>Click </span>
       <button className="js-add-button" onClick={this.handleAdd}>
         Add
       </button>
+      <span> to create idea</span>
       <br />
       <label htmlFor="sort-by">
-        Sort by:
+        <span>Sort ideas by: </span>
         <select id="sort-by" value={this.state.sortBy} onChange={this.handleSortChange}>
           <option value="title">Title</option>
           <option value="createdDate">Create date</option>
@@ -95,6 +97,9 @@ class Board extends Component {
               }}
             />),
           )
+        }
+        {
+          !ideas.length && <h2>Please click the [Add] button to create an idea.</h2>
         }
       </div>
     </div>);
