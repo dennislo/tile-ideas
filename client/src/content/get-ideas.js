@@ -1,7 +1,7 @@
 // import fetch from 'isomorphic-fetch';
 import { ideasDataRecieved } from '../actions/board-actions';
 
-const ideas = [];
+const ideas = []; // mock server response
 
 const getIdeas = (dispatch, ideasFromStorage) => {
   if (ideasFromStorage) {
