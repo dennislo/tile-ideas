@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { RIEInput } from 'riek';
+import { RIEInput, RIETextArea } from 'riek';
 import trashCan from '../../res/images/trash-icon.svg';
+
+const isNearLimit = (bodyText) => {
+  const maxChars = 140;
+  const limitChars = 15;
+  const charsRemaining = (maxChars - bodyText.length);
+  if (charsRemaining > limitChars) {
+    return { nearLimit: false, charsRemaining };
+  }
+  return { nearLimit: true, charsRemaining };
+};
 
 class Card extends Component {
   constructor(props) {
     super(props);
     const { id, createdDate } = props;
-    this.state = { id, createdDate, inlineTitle: 'Click to edit title', inlineBody: 'Click to edit body', editing: false };
+    this.state = {
+      id,
+      createdDate,
+      inlineTitle: 'Click to edit title',
+      inlineBody: 'Click to edit body',
+      editing: false,
+    };
 
     this.focus = this.focus.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -45,7 +61,7 @@ class Card extends Component {
 
   render() {
     const { id, createdDate } = this.props;
-    const nearLimit = false;
+    const { nearLimit, charsRemaining } = isNearLimit(this.state.inlineBody);
 
     return (<div id={id} className="card">
       <span className="card-header">
@@ -61,12 +77,12 @@ class Card extends Component {
         </span>
       </span>
       <span className="card-summary">
-        <RIEInput
+        <RIETextArea
           value={this.state.inlineBody}
           change={this.handleBodyChange}
           propName="inlineBody"
         />
-        {nearLimit && <span className="card-character-count">&lt; 15 characters remaining</span>}
+        {nearLimit && <span className="card-character-count">&lt; {charsRemaining} characters remaining</span>}
       </span>
       <span className="card-meta" data-created-date={createdDate}>
         <span className="card-control" onClick={this.handleDelete}>

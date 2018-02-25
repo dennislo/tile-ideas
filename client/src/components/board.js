@@ -23,7 +23,7 @@ class Board extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.board.ideas.length < this.props.board.ideas.length) {
+    if (prevProps.board.ideas && prevProps.board.ideas.length < this.props.board.ideas.length) {
       if (this.card) {
         this.card.focus();
       }
