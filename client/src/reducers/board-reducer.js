@@ -16,7 +16,7 @@ export const createNewState = (state, action) => {
     isFetching: false,
     ideas: action.payload,
   };
-  saveToStorage('state', newState); // persist in storage
+  saveToStorage('tile-ideas::state', newState); // persist in storage
   return newState;
 };
 

@@ -18,7 +18,7 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    const stateFromStorage = getFromStorage('state');
+    const stateFromStorage = getFromStorage('tile-ideas::state');
     if (stateFromStorage) {
       this.props.getIdeasData(stateFromStorage.ideas); // dispatch to update store
     } else {
