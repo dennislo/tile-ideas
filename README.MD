@@ -6,9 +6,9 @@ Idea/memo board where you can create, update, delete ideas.
 <summary><strong>Table of Contents</strong> (click to expand)</summary>
 
 * [Installation](#installation)
-* [Testing](##testing)
-* [Developing](##developing])
-* [Improvements](##improvements)
+* [Testing](#testing)
+* [Developing](#developing])
+* [Improvements](#improvements)
 </details>
 
 Dependencies:
