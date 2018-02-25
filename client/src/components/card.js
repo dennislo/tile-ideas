@@ -10,14 +10,13 @@ export const isNearLimit = (bodyText) => {
   let result = {};
   let charsRemaining = (maxChars - bodyText.length);
   if (charsRemaining > limitChars) {
-    result = { nearLimit: false, charsRemaining, charsOver: 0 };
+    result = { nearLimit: false, charsRemaining, charsCount: bodyText.length };
   }
   if (charsRemaining < limitChars) {
-    const charsOver = bodyText.length - maxChars;
     if (charsRemaining < 0) {
       charsRemaining = 0;
     }
-    result = { nearLimit: true, charsRemaining, charsOver };
+    result = { nearLimit: true, charsRemaining, charsCount: bodyText.length };
   }
   return result;
 };
@@ -74,7 +73,7 @@ class Card extends Component {
 
   render() {
     const { id, createdDate } = this.props;
-    const { nearLimit, charsRemaining, charsOver } = isNearLimit(this.state.inlineBody);
+    const { nearLimit, charsRemaining, charsCount } = isNearLimit(this.state.inlineBody);
 
     return (<div id={id} className="card">
       <span className="card-header">
@@ -96,11 +95,7 @@ class Card extends Component {
           propName="inlineBody"
         />
         {
-          nearLimit &&
-          <div>
-            <span className="card-character-count">{charsRemaining} character(s) remaining</span>
-            {(charsOver > 0) && <span className="card-character-over">{charsOver} character(s) over {maxChars} limit</span>}
-          </div>
+          nearLimit && <span className="card-character-count">{charsCount} character(s) typed, {charsRemaining} remaining</span>
         }
       </span>
       <span className="card-meta" data-created-date={createdDate}>

@@ -38,7 +38,7 @@ describe(path.basename(__filename), () => {
         const expected = {
           nearLimit: false,
           charsRemaining: 61,
-          charsOver: 0,
+          charsCount: 79,
         };
         expect(actual).to.eql(expected);
       });
@@ -50,7 +50,7 @@ describe(path.basename(__filename), () => {
         const expected = {
           nearLimit: true,
           charsRemaining: 0,
-          charsOver: 323,
+          charsCount: 463,
         };
         expect(actual).to.eql(expected);
       });
@@ -62,7 +62,7 @@ describe(path.basename(__filename), () => {
         const expected = {
           nearLimit: true,
           charsRemaining: 0,
-          charsOver: 0,
+          charsCount: 140,
         };
         expect(actual).to.eql(expected);
       });
