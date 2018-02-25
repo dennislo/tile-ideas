@@ -7,7 +7,7 @@ Idea/memo board where you can create, update, delete ideas.
 
 * [Installation](#installation)
 * [Testing](#testing)
-* [Developing](#developing])
+* [Developing](#developing)
 * [Improvements](#improvements)
 </details>
 
