@@ -40,11 +40,9 @@ class Board extends Component {
 
   handleSortChange(e) {
     const selectedSortBy = e.target.value;
-    this.setState({ sortBy: selectedSortBy });
+    const sortedIdeas = sortIdeas(this.state.ideas, selectedSortBy);
 
-    const sortedIdeas = sortIdeas(this.props.board.ideas, selectedSortBy);
-
-    this.setState({ ideas: sortedIdeas });
+    this.setState({ ideas: sortedIdeas, sortBy: selectedSortBy });
   }
 
   showNotification(type) { // source https://github.com/igorprado/react-notification-system
@@ -75,14 +73,18 @@ class Board extends Component {
       </label>
       <NotificationSystem ref={(ns) => {
         this.notificationSystem = ns;
-      }} />
+      }}
+      />
       <div className="cards">
         {
-          ideas.map(idea => <CardContainer key={idea.id} {...idea} onEdit={this.showNotification} ref={(instance) => {
-            if (!!instance) { // guard after inline update
-              this.card = instance.getWrappedInstance(); // use getWrappedInstance() since its redux connected
-            }
-          }} />)
+          ideas.map(idea =>
+            (<CardContainer key={idea.id} {...idea} onEdit={this.showNotification} ref={(instance) => {
+              if (!!instance) { // guard after inline update
+                this.card = instance.getWrappedInstance(); // use getWrappedInstance() since its redux connected
+              }
+            }}
+            />),
+          )
         }
       </div>
     </div>);

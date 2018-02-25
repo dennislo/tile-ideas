@@ -18,40 +18,38 @@ let addNotificationSpy;
 const mountComponent = (ideas) => {
   getNewIdeaSpy = sandbox.spy();
   getIdeasDataSpy = sandbox.spy();
-  const props = { getIdeasData: getIdeasDataSpy, getNewIdea: getNewIdeaSpy };
+  const props = { getIdeasData: getIdeasDataSpy, getNewIdea: getNewIdeaSpy, board: { ideas } };
   wrapper = mount(<Board {...props} />);
-
-  if (ideas) {
-    wrapper.setState({ ideas });
-  }
 };
 
-const renderComponent = () => {
+const shallowComponent = (ideas) => {
   getNewIdeaSpy = sandbox.spy();
   getIdeasDataSpy = sandbox.spy();
-  const props = { getIdeasData: getIdeasDataSpy, getNewIdea: getNewIdeaSpy };
+  const props = { getIdeasData: getIdeasDataSpy, getNewIdea: getNewIdeaSpy, board: { ideas } };
   wrapper = shallow(<Board {...props} />);
 };
 
 describe(path.basename(__filename), () => {
-  before(() => {
-    mountComponent();
-  });
-
   afterEach(() => {
     sandbox.restore();
   });
 
-  it('should call getIdeasData() on mount', () => {
-    expect(getIdeasDataSpy).to.have.property('callCount', 1);
-  });
-
-  describe('when add button is clicked', () => {
+  describe('rendering', () => {
     before(() => {
       mountComponent();
     });
 
-    it('should call getNewIdea()', () => {
+    it('should call getIdeasData() on mount', () => {
+      expect(getIdeasDataSpy).to.have.property('callCount', 1);
+    });
+  });
+
+  describe('when "add" button is clicked', () => {
+    before(() => {
+      mountComponent();
+    });
+
+    it('should call handleAdd() and getNewIdea()', () => {
       const inputEl = wrapper.find('.js-add-button');
       expect(getNewIdeaSpy).to.have.property('callCount', 0);
       inputEl.simulate('click');
@@ -69,9 +67,23 @@ describe(path.basename(__filename), () => {
     });
   });
 
+  describe('when "sort by" select is changed', () => {
+    const e = { target: { value: 'title' } };
+    before(() => {
+      const emptyIdeas = [];
+      mountComponent(emptyIdeas);
+    });
+
+    it('should call handleSortChange() correctly', () => {
+      const selectEl = wrapper.find('#sort-by');
+      selectEl.simulate('change', e);
+      expect(selectEl.props().value).to.equal(e.target.value);
+    });
+  });
+
   describe('showNotification()', () => {
     before(() => {
-      renderComponent();
+      shallowComponent();
       addNotificationSpy = sandbox.spy();
       wrapper.instance().notificationSystem = {
         addNotification: addNotificationSpy,
