@@ -21,17 +21,29 @@ const idea = {
 let wrapper;
 let updateIdeaSpy;
 let deleteIdeaSpy;
+let onEditSpy;
 
 const shallowComponent = () => {
   updateIdeaSpy = sandbox.spy();
   deleteIdeaSpy = sandbox.spy();
-  const props = { id: idea.id, createdDate: idea.createdDate, updateIdea: updateIdeaSpy, deleteIdea: deleteIdeaSpy };
+  onEditSpy = sandbox.spy();
+  const props = {
+    id: idea.id,
+    createdDate: idea.createdDate,
+    updateIdea: updateIdeaSpy,
+    deleteIdea: deleteIdeaSpy,
+    onEdit: onEditSpy,
+  };
   wrapper = shallow(<Card {...props} />);
 };
 
 describe(path.basename(__filename), () => {
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('isNearLimit()', () => {
-    describe('when body is less than maxChars', () => {
+    describe(`when body is less than ${maxChars}`, () => {
       it('should return correctly', () => {
         const bodyText = mockIdeas[0].body;
         const actual = isNearLimit(bodyText);
@@ -43,7 +55,7 @@ describe(path.basename(__filename), () => {
         expect(actual).to.eql(expected);
       });
     });
-    describe('when body is more than maxChars', () => {
+    describe(`when body is more than ${maxChars}`, () => {
       it('should return correctly', () => {
         const bodyText = mockIdeas[1].body;
         const actual = isNearLimit(bodyText);
@@ -55,7 +67,7 @@ describe(path.basename(__filename), () => {
         expect(actual).to.eql(expected);
       });
     });
-    describe('when body is equal to maxChars', () => {
+    describe(`when body is equal to ${maxChars}`, () => {
       it('should return correctly', () => {
         const bodyText = times(maxChars, () => [].concat('s')).join('');
         const actual = isNearLimit(bodyText);
@@ -83,13 +95,57 @@ describe(path.basename(__filename), () => {
     });
   });
 
+  describe('handleTitleChange()', () => {
+    before(() => {
+      shallowComponent();
+      wrapper.setState({ inlineTitle: '', inlineBody: '' });
+    });
+
+    it('should set state, call updateIdea(), call onEdit()', () => {
+      const initialState = wrapper.state().editingTitle;
+      expect(initialState).to.equal(false);
+      expect(updateIdeaSpy).to.have.property('callCount', 0);
+      expect(onEditSpy).to.have.property('callCount', 0);
+
+      const mockNewState = { inlineTitle: 'test title' };
+      wrapper.instance().handleTitleChange(mockNewState);
+
+      const nextState = wrapper.state();
+      expect(nextState.editingTitle).to.equal(false);
+      expect(nextState.inlineTitle).to.equal(mockNewState.inlineTitle);
+
+      expect(updateIdeaSpy).to.have.property('callCount', 1);
+      expect(onEditSpy).to.have.property('callCount', 1);
+    });
+  });
+
+  describe('handleBodyChange()', () => {
+    before(() => {
+      shallowComponent();
+      wrapper.setState({ inlineTitle: '', inlineBody: '' });
+    });
+
+    it('should set state, call updateIdea(), call onEdit()', () => {
+      const initialState = wrapper.state().editingTitle;
+      expect(initialState).to.equal(false);
+      expect(updateIdeaSpy).to.have.property('callCount', 0);
+      expect(onEditSpy).to.have.property('callCount', 0);
+
+      const mockNewState = { inlineBody: 'test body' };
+      wrapper.instance().handleBodyChange(mockNewState);
+
+      const nextState = wrapper.state();
+      expect(nextState.editingTitle).to.equal(false);
+      expect(nextState.inlineBody).to.equal(mockNewState.inlineBody);
+
+      expect(updateIdeaSpy).to.have.property('callCount', 1);
+      expect(onEditSpy).to.have.property('callCount', 1);
+    });
+  });
+
   describe('handleDelete()', () => {
     before(() => {
       shallowComponent();
-    });
-
-    after(() => {
-      sandbox.restore();
     });
 
     it('should call correctly', () => {
@@ -97,6 +153,34 @@ describe(path.basename(__filename), () => {
       expect(deleteIdeaSpy).to.have.property('callCount', 0);
       deleteEl.simulate('click');
       expect(deleteIdeaSpy).to.have.property('callCount', 1);
+    });
+  });
+
+  describe('body character count', () => {
+    beforeEach(() => {
+      shallowComponent();
+    });
+
+    it(`should show character count if body is greater than ${maxChars}`, () => {
+      let charCountSpan = wrapper.find('.card-character-count');
+      expect(charCountSpan.length).to.equal(0);
+
+      const bodyText = times(maxChars + 1, () => [].concat('s')).join('');
+      wrapper.setState({ inlineBody: bodyText });
+
+      charCountSpan = wrapper.find('.card-character-count');
+      expect(charCountSpan.length).to.equal(1);
+    });
+
+    it(`should not show character count if body is less than ${maxChars}`, () => {
+      let charCountSpan = wrapper.find('.card-character-count');
+      expect(charCountSpan.length).to.equal(0);
+
+      const bodyText = times(maxChars - 20, () => [].concat('s')).join('');
+      wrapper.setState({ inlineBody: bodyText });
+
+      charCountSpan = wrapper.find('.card-character-count');
+      expect(charCountSpan.length).to.equal(0);
     });
   });
 });
