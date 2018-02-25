@@ -3,8 +3,12 @@ import { ideasDataRecieved } from '../actions/board-actions';
 
 const ideas = [];
 
-const getIdeas = (dispatch) => {
-  dispatch(ideasDataRecieved(ideas));
+const getIdeas = (dispatch, ideasFromStorage) => {
+  if (ideasFromStorage) {
+    dispatch(ideasDataRecieved(ideasFromStorage));
+  } else {
+    dispatch(ideasDataRecieved(ideas));
+  }
 
   // GET ideas/ -> [{"id": ":id", "created_date": ":created_date", "title": ":title", "body": ":body"}, {}, ...]
   /*

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { sortBy } from 'lodash';
 import NotificationSystem from 'react-notification-system';
 import CardContainer from '../containers/card-container';
+import { getFromStorage } from '../storage/local';
 
 export const sortIdeas = (ideas, field) => sortBy(ideas, o => o[field]);
 
@@ -17,7 +18,12 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    this.props.getIdeasData(); // perform xhr fetch
+    const stateFromStorage = getFromStorage('state');
+    if (stateFromStorage) {
+      this.props.getIdeasData(stateFromStorage.ideas); // dispatch to update store
+    } else {
+      this.props.getIdeasData(); // perform xhr fetch
+    }
   }
 
   componentWillReceiveProps(nextProps) {

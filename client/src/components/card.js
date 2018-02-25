@@ -24,12 +24,13 @@ export const isNearLimit = (bodyText) => {
 class Card extends Component {
   constructor(props) {
     super(props);
-    const { id, createdDate } = props;
+
+    const { id, createdDate, title, body } = props; // title and body can come from storage
     this.state = {
       id,
       createdDate,
-      inlineTitle: 'Click to edit title',
-      inlineBody: 'Click to edit body',
+      inlineTitle: title || 'Click to edit title',
+      inlineBody: body || 'Click to edit body',
       editingTitle: false,
     };
 
@@ -111,6 +112,8 @@ class Card extends Component {
 Card.propTypes = {
   id: PropTypes.string.isRequired,
   createdDate: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  body: PropTypes.string,
   updateIdea: PropTypes.func.isRequired,
   deleteIdea: PropTypes.func.isRequired,
   onEdit: PropTypes.func,

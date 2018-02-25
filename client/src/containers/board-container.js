@@ -9,8 +9,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getIdeasData: () => {
-    getIdeas(dispatch);
+  getIdeasData: (ideasFromStorage) => {
+    getIdeas(dispatch, ideasFromStorage);
   },
   getNewIdea: () => {
     getIdea(dispatch);

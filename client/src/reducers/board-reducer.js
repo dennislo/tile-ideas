@@ -1,3 +1,4 @@
+import { saveToStorage } from '../storage/local';
 import {
   IDEAS_DATA_REQUESTED,
   IDEAS_DATA_RECEIVED,
@@ -8,6 +9,16 @@ import {
 } from '../actions/types';
 
 const defaultState = { ideas: [] };
+
+export const createNewState = (state, action) => {
+  const newState = {
+    ...state,
+    isFetching: false,
+    ideas: action.payload,
+  };
+  saveToStorage('state', newState); // persist in storage
+  return newState;
+};
 
 export default (state = defaultState, action = {}) => {
   switch (action.type) {
@@ -29,19 +40,11 @@ export default (state = defaultState, action = {}) => {
         ...action.payload,
       };
     case IDEA_ADD:
-      const newIdeas = state.ideas.concat(action.payload);
-      return {
-        ...state,
-        isFetching: false,
-        ideas: newIdeas,
-      };
+      const actionWithUpdatedPayload = { payload: state.ideas.concat(action.payload) };
+      return createNewState(state, actionWithUpdatedPayload);
     case IDEA_UPDATE:
     case IDEA_DELETE:
-      return {
-        ...state,
-        isFetching: false,
-        ideas: action.payload,
-      };
+      return createNewState(state, action);
     default:
       return state;
   }
