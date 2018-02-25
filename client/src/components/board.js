@@ -10,7 +10,7 @@ export const sortIdeas = (ideas, field) => sortBy(ideas, o => o[field]);
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = { ideas: [], sortBy: 'title' };
+    this.state = { ideas: [], sortBy: 'title', justAdded: false };
 
     this.handleAdd = this.handleAdd.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
@@ -34,7 +34,7 @@ class Board extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.board.ideas && prevProps.board.ideas.length < this.props.board.ideas.length) {
-      if (this.card) {
+      if (this.state.justAdded) {
         this.card.focus();
       }
     }
@@ -42,6 +42,7 @@ class Board extends Component {
 
   handleAdd() {
     this.props.getNewIdea();
+    this.setState({ justAdded: true });
   }
 
   handleSortChange(e) {

@@ -94,6 +94,7 @@ class Card extends Component {
           value={this.state.inlineBody}
           change={this.handleBodyChange}
           propName="inlineBody"
+          validate={str => (str.length <= maxChars)}
         />
         {
           nearLimit &&
