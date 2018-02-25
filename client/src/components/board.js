@@ -22,8 +22,8 @@ class Board extends Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.props.board.ideas.length > 0) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.board.ideas.length < this.props.board.ideas.length) {
       if (this.card) {
         this.card.focus();
       }
@@ -38,9 +38,10 @@ class Board extends Component {
   handleSortChange(e) {
     const selectedSortBy = e.target.value;
     this.setState({ sortBy: selectedSortBy });
+
     const ideas = this.props.board.ideas;
     const sorted = sortBy(ideas, o => o[selectedSortBy]);
-    console.log(sorted);
+
     this.setState({ ideas: sorted });
   }
 
