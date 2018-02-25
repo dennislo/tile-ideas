@@ -99,4 +99,4 @@ Below is a short list of various improvements broken up into features, implement
 [Mocha]: <https://mochajs.org/>
 [Enzyme]: <http://airbnb.io/enzyme/>
 [Sinon]: <http://sinonjs.org/>
-[Reslect]: <https://github.com/reactjs/reselect>
+[Reselect]: <https://github.com/reactjs/reselect>
