@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { sortBy } from 'lodash';
+import NotificationSystem from 'react-notification-system';
 import CardContainer from '../containers/card-container';
 
 class Board extends Component {
@@ -10,6 +11,7 @@ class Board extends Component {
 
     this.handleAdd = this.handleAdd.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
+    this.showNotification = this.showNotification.bind(this);
   }
 
   componentDidMount() {
@@ -45,6 +47,15 @@ class Board extends Component {
     this.setState({ ideas: sorted });
   }
 
+  showNotification(type) { // source https://github.com/igorprado/react-notification-system
+    this.notificationSystem.addNotification({
+      autoDismiss: 2,
+      title: 'Changes saved',
+      message: `Your changes to the "${type}" were saved`,
+      level: 'success',
+    });
+  }
+
   render() {
     let ideas = [];
     if (this.state.ideas) {
@@ -62,9 +73,10 @@ class Board extends Component {
           <option value="createDate">Create date</option>
         </select>
       </label>
+      <NotificationSystem ref={(ns) => { this.notificationSystem = ns; }} />
       <div className="cards">
         {
-          ideas.map(idea => <CardContainer key={idea.id} {...idea} ref={(instance) => {
+          ideas.map(idea => <CardContainer key={idea.id} {...idea} onEdit={this.showNotification} ref={(instance) => {
             if (!!instance) { // not availble after inline update
               this.card = instance.getWrappedInstance(); // use getWrappedInstance() since its redux connected
             }

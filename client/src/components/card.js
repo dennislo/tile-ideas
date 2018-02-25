@@ -42,6 +42,8 @@ class Card extends Component {
     idea.inlineTitle = newState.inlineTitle;
 
     this.props.updateIdea(idea);
+
+    this.props.onEdit('Title'); // show notification
   }
 
   handleBodyChange(newState) {
@@ -51,6 +53,8 @@ class Card extends Component {
     idea.inlineBody = newState.inlineBody;
 
     this.props.updateIdea(idea);
+
+    this.props.onEdit('Body'); // show notification
   }
 
   handleDelete() {
@@ -98,6 +102,7 @@ Card.propTypes = {
   createdDate: PropTypes.string.isRequired,
   updateIdea: PropTypes.func.isRequired,
   deleteIdea: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default Card;
