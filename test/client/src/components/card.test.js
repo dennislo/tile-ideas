@@ -1,24 +1,71 @@
 import path from 'path';
-import React from 'react';
+// import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import Card from '../../../../client/src/components/card';
+import { times } from 'lodash';
+// import { shallow } from 'enzyme';
+// import sinon from 'sinon';
+import { maxChars, limitChars, isNearLimit } from '../../../../client/src/components/card';
+// import { getRandomId, getCreateDate } from '../../../../client/src/content/get-idea';
 
-let wrapper;
+// fixtures
+import mockIdeas from '../../../fixtures/mock-ideas.json';
 
-describe('results', () => {
-  // before(() => {
-  //   wrapper = shallow(<Results data={mockData} />);
-  // });
-  //
-  // it('should render heading', () => {
-  //   const actual = wrapper.find('.qa-results-heading');
-  //   expect(actual.text()).to.equal('Search results below:');
-  // });
-  //
-  // it('should render results', () => {
-  //   const actual = wrapper.find('.qa-result-item');
-  //   const expected = JSON.stringify(mockData);
-  //   expect(actual.text()).to.equal(expected);
-  // });
+// const sandbox = sinon.sandbox.create();
+// const idea = {
+//   id: getRandomId(1, 10000).toString(),
+//   createdDate: getCreateDate(),
+//   title: '',
+//   body: '',
+// };
+
+// let wrapper;
+// let updateIdeaSpy;
+// let deleteIdeaSpy;
+//
+// const shallowComponent = () => {
+//   updateIdeaSpy = sandbox.spy();
+//   deleteIdeaSpy = sandbox.spy();
+//   const props = { updateIdea: updateIdeaSpy, deleteIdea: deleteIdeaSpy, id: idea.id, createdDate: idea.createdDate };
+//   wrapper = shallow(<Card {...props} />);
+// };
+
+describe(path.basename(__filename), () => {
+  describe('isNearLimit()', () => {
+    describe('when body is less than maxChars', () => {
+      it('should return correctly', () => {
+        const bodyText = mockIdeas[0].body;
+        const actual = isNearLimit(bodyText);
+        const expected = {
+          nearLimit: false,
+          charsRemaining: 61,
+          charsOver: 0,
+        };
+        expect(actual).to.eql(expected);
+      });
+    });
+    describe('when body is more than maxChars', () => {
+      it('should return correctly', () => {
+        const bodyText = mockIdeas[1].body;
+        const actual = isNearLimit(bodyText);
+        const expected = {
+          nearLimit: true,
+          charsRemaining: 0,
+          charsOver: 323,
+        };
+        expect(actual).to.eql(expected);
+      });
+    });
+    describe('when body is equal to maxChars', () => {
+      it('should return correctly', () => {
+        const bodyText = times(maxChars, () => [].concat('s')).join('');
+        const actual = isNearLimit(bodyText);
+        const expected = {
+          nearLimit: true,
+          charsRemaining: 0,
+          charsOver: 0,
+        };
+        expect(actual).to.eql(expected);
+      });
+    });
+  });
 });

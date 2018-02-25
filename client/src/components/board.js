@@ -78,11 +78,15 @@ class Board extends Component {
       <div className="cards">
         {
           ideas.map(idea =>
-            (<CardContainer key={idea.id} {...idea} onEdit={this.showNotification} ref={(instance) => {
-              if (!!instance) { // guard after inline update
-                this.card = instance.getWrappedInstance(); // use getWrappedInstance() since its redux connected
-              }
-            }}
+            (<CardContainer
+              key={idea.id}
+              {...idea}
+              onEdit={this.showNotification}
+              ref={(instance) => {
+                if (instance) { // guard after inline update
+                  this.card = instance.getWrappedInstance(); // use getWrappedInstance() since its redux connected
+                }
+              }}
             />),
           )
         }

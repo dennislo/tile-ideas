@@ -4,14 +4,22 @@ import { RIEInput, RIETextArea } from 'riek';
 
 const trashCan = (process.env.NODE_ENV !== 'test') ? require('../../res/images/trash-icon.svg') : {};
 
-const isNearLimit = (bodyText) => {
-  const maxChars = 140;
-  const limitChars = 15;
-  const charsRemaining = (maxChars - bodyText.length);
+export const maxChars = 140;
+export const limitChars = 15;
+export const isNearLimit = (bodyText) => {
+  let result = {};
+  let charsRemaining = (maxChars - bodyText.length);
   if (charsRemaining > limitChars) {
-    return { nearLimit: false, charsRemaining };
+    result = { nearLimit: false, charsRemaining, charsOver: 0 };
   }
-  return { nearLimit: true, charsRemaining };
+  if (charsRemaining < limitChars) {
+    const charsOver = bodyText.length - maxChars;
+    if (charsRemaining < 0) {
+      charsRemaining = 0;
+    }
+    result = { nearLimit: true, charsRemaining, charsOver };
+  }
+  return result;
 };
 
 class Card extends Component {
@@ -66,7 +74,7 @@ class Card extends Component {
 
   render() {
     const { id, createdDate } = this.props;
-    const { nearLimit, charsRemaining } = isNearLimit(this.state.inlineBody);
+    const { nearLimit, charsRemaining, charsOver } = isNearLimit(this.state.inlineBody);
 
     return (<div id={id} className="card">
       <span className="card-header">
@@ -87,7 +95,13 @@ class Card extends Component {
           change={this.handleBodyChange}
           propName="inlineBody"
         />
-        {nearLimit && <span className="card-character-count">&lt; {charsRemaining} characters remaining</span>}
+        {
+          nearLimit &&
+          <div>
+            <span className="card-character-count">{charsRemaining} character(s) remaining</span>
+            {(charsOver > 0) && <span className="card-character-over">{charsOver} character(s) over {maxChars} limit</span>}
+          </div>
+        }
       </span>
       <span className="card-meta" data-created-date={createdDate}>
         <span className="card-control" onClick={this.handleDelete}>
@@ -103,7 +117,7 @@ Card.propTypes = {
   createdDate: PropTypes.string.isRequired,
   updateIdea: PropTypes.func.isRequired,
   deleteIdea: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
 };
 
 export default Card;
