@@ -1,6 +1,15 @@
-import { IDEAS_DATA_REQUESTED, IDEAS_DATA_RECEIVED, IDEAS_DATA_NOT_RECEIVED, IDEA_ADD, IDEA_UPDATE, IDEA_DELETE } from '../actions/types';
+import {
+  IDEAS_DATA_REQUESTED,
+  IDEAS_DATA_RECEIVED,
+  IDEAS_DATA_NOT_RECEIVED,
+  IDEA_ADD,
+  IDEA_UPDATE,
+  IDEA_DELETE,
+} from '../actions/types';
 
-export default (state = {}, action = {}) => {
+const defaultState = { ideas: [] };
+
+export default (state = defaultState, action = {}) => {
   switch (action.type) {
     case IDEAS_DATA_REQUESTED:
       return {

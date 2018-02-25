@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   getIdeasData: () => {
-    getIdeas(dispatch); // performs client side fetch
+    getIdeas(dispatch);
   },
   getNewIdea: () => {
     getIdea(dispatch);

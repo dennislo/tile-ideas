@@ -5,7 +5,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import reducers from '../../client/src/reducers/index';
-import { ITEM_ADD } from '../../client/src/actions/types';
+// import { IDEA_ADD } from '../../client/src/actions/types';
 import App from '../../client/src/app';
 
 const router = express.Router();
@@ -14,13 +14,16 @@ router.get('/', (req, res) => {
   // http://redux.js.org/docs/recipes/ServerRendering.html
   const store = createStore(reducers);
 
-  store.dispatch({
-    type: ITEM_ADD,
-    item: {
-      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.'
-    },
-  });
+  // Can inject initial state on server side
+  // store.dispatch({
+  //   type: IDEA_ADD,
+  //   payload: {
+  //     id: '1',
+  //     createdDate: '',
+  //     title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  //     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.',
+  //   },
+  // });
 
   const context = {};
 
