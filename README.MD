@@ -1,7 +1,17 @@
 # Tile Ideas
 
-This web app use ReactJS, ExpressJS, Redux and React Router v4.
+Idea/memo board where you can create, update, delete ideas.
 
+<details>
+<summary><strong>Table of Contents</strong> (click to expand)</summary>
+
+* [Installation](#installation)
+* [Testing](##testing)
+* [Developing](##developing])
+* [Improvements](##improvements)
+</details>
+
+Dependencies:
 - [ReactJS] - The state based framework for your Views
 - [React Router v4] - For routing to different paths
 - [Redux] - Redux manages your state
@@ -14,7 +24,7 @@ Testing:
 - [Enzyme] - Enzyme is a JavaScript Testing utility for React that makes it easier to assert, manipulate, and traverse your React Components
 - [Sinon] - Standalone test spies, stubs and mocks for JavaScript. Works with any unit testing framework
 
-# Installation
+## Installation
 
 First `cd` into the directory and run
 
@@ -27,14 +37,14 @@ First `cd` into the directory and run
 
     npm test
 
-## Developing App with [Hot Reload]
-To develop your own react application, you can take advantage of React Hot Loader and Webpack Dev Server. To develop app with hot reload:
+## Developing
+To develop your own react application, you can take advantage of [Hot Reload] and Webpack Dev Server. To develop app with hot reload:
 
     npm run dev
 
 Now you can access your react application on http://localhost:8080
 
-## Production build and Deploy
+### Production build and Deploy
 To make a production build of your project, run the following commands
 
     npm run build
@@ -55,23 +65,23 @@ To get a distributable tarball of your application, run this command
 
 Remember that you have to run `npm run build` before doing this. This will create a tar.gz file in your root folder. The contents in this file is deployable. All you need to do is copy the contents inside package folder inside this tar.gz file to your server.
 
-# Improvements
+## Improvements
 
 Below is a short list of various improvements broken up into features, implementation and development categories.
 
-## Implementation:
+### Implementation:
 * Add graph ql to integrate with backend
 * Add integration tests with backend
 * Add service worker for improved offline experience
 * Add [Reselect] for memoise redux app store
 
-## Development:
+### Development:
 * Add jest.js for component snapshot testing
 * Add backstop.js (or whatever) for visual regression testing
 * Add storybook.js for improved component development and testing
 * Add istanbul.js for test code coverage
 
-## Features:
+### Features:
 * Add seo for users and crawlers
 * Add accessibility for screen reader support
 * Add cdn scripts for popular dependencies
