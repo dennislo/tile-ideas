@@ -83,7 +83,7 @@ class Card extends Component {
               value={this.state.inlineTitle}
               change={this.handleTitleChange}
               propName="inlineTitle"
-              editing={this.state.editingTitle}
+              editing={this.state.editingTitle} // will focus input if true
             />
           </h3>
         </span>

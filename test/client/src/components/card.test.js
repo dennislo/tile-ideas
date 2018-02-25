@@ -1,33 +1,33 @@
 import path from 'path';
-// import React from 'react';
+import React from 'react';
 import { expect } from 'chai';
 import { times } from 'lodash';
-// import { shallow } from 'enzyme';
-// import sinon from 'sinon';
-import { maxChars, limitChars, isNearLimit } from '../../../../client/src/components/card';
-// import { getRandomId, getCreateDate } from '../../../../client/src/content/get-idea';
+import { shallow } from 'enzyme';
+import sinon from 'sinon';
+import Card, { maxChars, isNearLimit } from '../../../../client/src/components/card';
+import { getRandomId, getCreateDate } from '../../../../client/src/content/get-idea';
 
 // fixtures
 import mockIdeas from '../../../fixtures/mock-ideas.json';
 
-// const sandbox = sinon.sandbox.create();
-// const idea = {
-//   id: getRandomId(1, 10000).toString(),
-//   createdDate: getCreateDate(),
-//   title: '',
-//   body: '',
-// };
+const sandbox = sinon.sandbox.create();
+const idea = {
+  id: getRandomId(1, 10000).toString(),
+  createdDate: getCreateDate(),
+  title: '',
+  body: '',
+};
 
-// let wrapper;
-// let updateIdeaSpy;
-// let deleteIdeaSpy;
-//
-// const shallowComponent = () => {
-//   updateIdeaSpy = sandbox.spy();
-//   deleteIdeaSpy = sandbox.spy();
-//   const props = { updateIdea: updateIdeaSpy, deleteIdea: deleteIdeaSpy, id: idea.id, createdDate: idea.createdDate };
-//   wrapper = shallow(<Card {...props} />);
-// };
+let wrapper;
+let updateIdeaSpy;
+let deleteIdeaSpy;
+
+const shallowComponent = () => {
+  updateIdeaSpy = sandbox.spy();
+  deleteIdeaSpy = sandbox.spy();
+  const props = { id: idea.id, createdDate: idea.createdDate, updateIdea: updateIdeaSpy, deleteIdea: deleteIdeaSpy };
+  wrapper = shallow(<Card {...props} />);
+};
 
 describe(path.basename(__filename), () => {
   describe('isNearLimit()', () => {
@@ -66,6 +66,37 @@ describe(path.basename(__filename), () => {
         };
         expect(actual).to.eql(expected);
       });
+    });
+  });
+
+  describe('focus()', () => {
+    before(() => {
+      shallowComponent();
+    });
+
+    it('should set state correctly', () => {
+      const initialState = wrapper.state().editingTitle;
+      expect(initialState).to.equal(false);
+      wrapper.instance().focus();
+      const nextState = wrapper.state().editingTitle;
+      expect(nextState).to.equal(true);
+    });
+  });
+
+  describe('handleDelete()', () => {
+    before(() => {
+      shallowComponent();
+    });
+
+    after(() => {
+      sandbox.restore();
+    });
+
+    it('should call correctly', () => {
+      const deleteEl = wrapper.find('.card-control');
+      expect(deleteIdeaSpy).to.have.property('callCount', 0);
+      deleteEl.simulate('click');
+      expect(deleteIdeaSpy).to.have.property('callCount', 1);
     });
   });
 });
