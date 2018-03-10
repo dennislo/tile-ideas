@@ -1,0 +1,3 @@
+1.  Card rounded corners https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_cards2
+2.  Flex box cards: https://codepen.io/abbeyjfitzgerald/pen/wgXWpm
+3.  Flex box card, responsive: https://codepen.io/cssgirl/pen/NGKgrM
